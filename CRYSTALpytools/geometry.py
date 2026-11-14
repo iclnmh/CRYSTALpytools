@@ -412,11 +412,11 @@ class CStructure(Structure):
 
             cart_coords = self.cart_coords
             rot = rotate(oldv, [0, 0, 1])
-            latt = rot.apply(latt)
+            latt = rot.apply(np.array(latt))
             latt[0, 2] = 0
             latt[1, 2] = 0
             latt[2] = [0, 0, 500]
-            cart_coords = rot.apply(cart_coords)
+            cart_coords = rot.apply(np.array(cart_coords))
             self = CStructure(Lattice(latt, pbc=(True, True, False)),
                               species=self.species, coords=cart_coords,
                               standarize=False, coords_are_cartesian=True)
@@ -431,11 +431,11 @@ class CStructure(Structure):
             cart_coords = self.cart_coords
             latt = self.lattice.matrix
             rot = rotate(oldv, [1, 0, 0])
-            latt = rot.apply(latt)
+            latt = rot.apply(np.array(latt))
             latt[0, 1:] = 0
             latt[1] = [0, 500, 0]
             latt[2] = [0, 0, 500]
-            cart_coords = rot.apply(cart_coords)
+            cart_coords = rot.apply(np.array(cart_coords))
             self = CStructure(Lattice(latt, pbc=(True, False, False)),
                               species=self.species, coords=cart_coords,
                               standarize=False, coords_are_cartesian=True)
@@ -671,11 +671,11 @@ class CStructure(Structure):
         rot = Rot.from_rotvec(rotvec)
 
         # lattice
-        latt_mx = rot.apply(self.lattice.matrix)
+        latt_mx = rot.apply(np.array(self.lattice.matrix))
         latt = Lattice(latt_mx, pbc=self.pbc)
 
         # coordinates
-        coords = rot.apply(self.cart_coords)
+        coords = rot.apply(np.array(self.cart_coords))
 
         rcel = CStructure(lattice=latt, species=self.species,
                           coords=coords, coords_are_cartesian=True)
